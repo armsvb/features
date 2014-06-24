@@ -864,7 +864,9 @@ class Features(gtk.VBox):
 		gcode_def = ""
 		gcode = ""
 		f = self.treestore.get(iter,0)[0]
-		if f.__class__ == Feature : 
+		print "Feature class:", f.__class__ 
+
+		if f.__class__ == Feature :
 			gcode_def += f.get_definitions()
 			gcode += f.process(f.attr["before"]) 
 			gcode += f.process(f.attr["call"]) 
@@ -874,7 +876,7 @@ class Features(gtk.VBox):
 			gcode += g
 			gcode_def += d
 			iter = self.treestore.iter_next(iter)
-		if f.__class__ ==	 Feature : 
+		if f.__class__ == Feature : 
 			gcode += f.process(f.attr["after"])+"\n" 
 
 		return gcode,gcode_def
@@ -911,12 +913,11 @@ class Features(gtk.VBox):
 		self.stat.poll()
 		if self.stat.interp_state == linuxcnc.INTERP_IDLE :
 			self.linuxcnc.reset_interpreter()
-			self.linuxcnc.wait_complete()
+		    	self.linuxcnc.wait_complete()
 			self.linuxcnc.mode(linuxcnc.MODE_AUTO)
-			self.linuxcnc.wait_complete()
+		    	self.linuxcnc.wait_complete()
 			self.linuxcnc.program_open(PROGRAM_PREFIX + "/features.ngc")
-			self.linuxcnc.wait_complete()
-			subprocess.call(["axis-remote",PROGRAM_PREFIX + "/features.ngc"])
+		    	self.linuxcnc.wait_complete()
 		
 	
 	def to_file(self, *arg) :

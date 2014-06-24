@@ -31,7 +31,7 @@
 		<sub name="Linked Line cartesian" icon="images/line-xy.png" src="mill/chain/linked-line-xy.ini" />
 		<sub name="Linked Line polar" icon="images/line-ar.png" src="mill/chain/linked-line-ar.ini" />
 		<sub name="Linked Arc 2 points + center" icon="images/arc-xyc.png" src="mill/chain/linked-arc-xyc.ini" />
-		<sub name="Linked Arc 3 points" icon="images/arc-3poits.png" src="mill/chain/linked-arc-3poits.ini" />
+		<sub name="Linked Arc 3 points" icon="images/arc-3points.png" src="mill/chain/linked-arc-3points.ini" />
 		<sub name="Linked Arc 2 points + radius" icon="images/arc-to-xyr.png" src="mill/chain/linked-arc-to-xyr.ini" />
 	</group>
 
