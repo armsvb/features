@@ -913,12 +913,12 @@ class Features(gtk.VBox):
 		self.stat.poll()
 		if self.stat.interp_state == linuxcnc.INTERP_IDLE :
 			self.linuxcnc.reset_interpreter()
-		    	self.linuxcnc.wait_complete()
+			self.linuxcnc.wait_complete()
 			self.linuxcnc.mode(linuxcnc.MODE_AUTO)
-		    	self.linuxcnc.wait_complete()
+			self.linuxcnc.wait_complete()
 			self.linuxcnc.program_open(PROGRAM_PREFIX + "/features.ngc")
-		    	self.linuxcnc.wait_complete()
-		
+			self.linuxcnc.wait_complete()
+			subprocess.call(["axis-remote",PROGRAM_PREFIX + "/features.ngc"])		
 	
 	def to_file(self, *arg) :
 		filechooserdialog = gtk.FileChooserDialog("Save as...", None, gtk.FILE_CHOOSER_ACTION_SAVE, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
