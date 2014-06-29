@@ -18,15 +18,28 @@
 		</group>
 	</group> 	
 
+	<group name="Draw" icon="images/draw.png">
+		<sub name="Draw" icon="images/draw.png" src="mill/draw/draw.ini" />	
+		<sub name="Line absolute" icon="images/line-abs.png" src="mill/draw/line-abs.ini" />
+		<sub name="Line relative" icon="images/line-rel.png" src="mill/draw/line-rel.ini" />
+		<sub name="Close drawing" icon="images/close.png" src="mill/draw/close.ini" />
+	</group>
+
 	<group name="Lines" icon="images/draw.png">
 		<sub name="Line cartesian" icon="images/line-xy.png" src="mill/line-xy.ini" />
 		<sub name="Line polar" icon="images/line-ar.png" src="mill/line-ar.ini" />
 		<sub name="Arc 2 points + center" icon="images/arc-xyc.png" src="mill/arc-xyc.ini" />
-		<sub name="Arc 3 points" icon="images/arc-3poits.png" src="mill/arc-3poits.ini" />
+		<sub name="Arc 3 points" icon="images/arc-3points.png" src="mill/arc-3points.ini" />
 		<sub name="Arc 2 points + radius" icon="images/arc-to-xyr.png" src="mill/arc-to-xyr.ini" />
 	</group>
 
-	<group name="Chains" icon="images/draw.png">
+	<group name="4axis XYZB" icon="images/lathe-chuck.png">
+		<sub name="Line cartesian" icon="images/line-xy.png" src="mill/chain4axis/line-yz.ini" />
+		<sub name="Arc 2 points + radius" icon="images/arc-to-xyr.png" src="mill/chain4axis/arc-yzr.ini" />
+		<sub name="Parameters" icon="images/cutting-params.png" src="mill/chain4axis/cut-params.ini" />
+	</group>
+
+	<group name="Chains" icon="images/chain.png">
 		<sub name="Link up" icon="images/array.png" src="mill/chain/linkup.ini" />
 		<sub name="Linked Line cartesian" icon="images/line-xy.png" src="mill/chain/linked-line-xy.ini" />
 		<sub name="Linked Line polar" icon="images/line-ar.png" src="mill/chain/linked-line-ar.ini" />
@@ -61,6 +74,9 @@
 		<sub name="Probe cube" src="probe-cube.ini" icon="images/probe-cube.png"/>
 		<sub name="Global probing params" icon="images/tool-probe.png" src="mill/global-probing-params.ini"/> 
 	</group>
+	
+	<defaults src="mill/defaults.ngc"/>
+
 </xml>
 
 <!-- Do not forget to close <sub /> tags! -->
