@@ -44,16 +44,20 @@
 			#<sub> = #1
 			O#1 CALL [#<y>+#<tool_r>] [#<y0>] [#<z0>] [#<y1>] [#<z1>] [#14] [#15]
 			#<depth_yz> = [#<_depth_yz>]
-	(print,y = #<y>,depth_yz = #<depth_yz>)
+	(print,while01 y = #<y>,depth_yz = #<depth_yz>)
 			O<multipass-xyzb-while02> WHILE [#<z> GT [#<depth_yz>+#<fin_z>]]
 			
 				#<z> = [#<z>-#<step_z>]
 				O<multipass-if01> IF [#<z> LT [#<depth_yz>+#<fin_z>]]
 					#<z>=[#<depth_yz>+#<fin_z>]
 				O<multipass-if01> ENDIF 
+				O<multipass-if08> IF [#<z> GT 0]
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
+				O<multipass-if08> ELSE
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+				O<multipass-if08> ENDIF
 				G1 Z#<z>
-				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
-	(print,y = #<y>,z = #<z>,feed = #<feed_r>)
+	(print,while02 y = #<y>,z = #<z>,feed = #<feed_r>)
 				G1 B180 F#<feed_r>  (Angular Feed Formula fc = f*[180/[pi*r]])
 				G1 B0  
 				
@@ -61,8 +65,12 @@
 			
 			(Prune radius fillet )
 			G1 X0
-			#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<_z>]]]
-	(print,y = #<y>,z = #<z>,feed = #<feed_r>)
+			O<multipass-if07> IF [#<depth_yz> GT 0]
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<depth_yz>]]]
+			O<multipass-if07> ELSE
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+			O<multipass-if07> ENDIF
+	(print,Prune1 y = #<y>,z = #<z>,feed = #<feed_r>)
 			G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
 			G1 B0  							
 		O<multipass-xyzb-while01> ENDWHILE
@@ -87,19 +95,28 @@
 				O<multipass-if03> IF [#<z> LT [#<depth_yz>+#<fin_z>]]
 					#<z>=[#<depth_yz>+#<fin_z>]
 				O<multipass-if03> ENDIF 
+				O<multipass-if09> IF [#<z> GT 0]
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
+				O<multipass-if09> ELSE
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+				O<multipass-if09> ENDIF
 				G1 Z#<z>
-				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
-	(print,y = #<y>,z = #<z>,feed = #<feed_r>)
+				
+	(print,while03 y = #<y>,z = #<z>,feed = #<feed_r>)
 				G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
 				G1 B0 
 				
 			O<multipass-xyzb-while03> ENDWHILE
 		(Prune radius fillet )
-		G1 X0
-		#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<_z>]]]
-	(print,y = #<y>,z = #<z>,feed = #<feed_r>)
-		G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
-		G1 B0  							
+			G1 X0
+			O<multipass-if06> IF [#<depth_yz> GT 0]
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<depth_yz>]]]
+			O<multipass-if06> ELSE
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+			O<multipass-if06> ENDIF
+	(print,Prune2 y = #<y>,z = #<z>,feed = #<feed_r>)
+			G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
+			G1 B0  							
 		O<multipass-if17> ENDIF
  
 		(Make final Z cut )
@@ -123,17 +140,26 @@
 					#<y>=[#<y1>-#<tool_r>]
 				O<multipass-if04> ENDIF 
 				G1 Y#<y>
-				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
-	(print,y = #<y>,z = #<z>,feed = #<feed_r>)
+				O<multipass-if10> IF [#<z> GT 0]
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
+				O<multipass-if10> ELSE
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+				O<multipass-if10> ENDIF
+	(print,while04 y = #<y>,z = #<depth_yz>,feed = #<feed_r>)
 				G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
 				G1 B0  							
 			O<multipass-xyzb-while04> ENDWHILE
-		(Prune radius fillet )
-		G1 X0
-		#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<_z>]]]
-	(print,y = #<y>,z = #<z>,feed = #<feed_r>)
-		G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
-		G1 B0  							
+			(Prune radius fillet )
+			G1 X0
+			O<multipass-if05> IF [#<z1> GT 0]
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z1>]]]
+			O<multipass-if05> ELSE
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+			O<multipass-if05> ENDIF
+
+	(print,Prune3 y = #<y>,z = #<z>,feed = #<feed_r>)
+			G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
+			G1 B0  							
 		O<multipass-if16> ENDIF 
 
 		
