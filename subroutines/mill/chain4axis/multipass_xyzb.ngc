@@ -54,7 +54,7 @@
 				O<multipass-if08> IF [#<z> GT 0]
 					#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
 				O<multipass-if08> ELSE
-					#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>*0.1]]]
 				O<multipass-if08> ENDIF
 				G1 Z#<z>
 	(print,while02 y = #<y>,z = #<z>,feed = #<feed_r>)
@@ -68,7 +68,7 @@
 			O<multipass-if07> IF [#<depth_yz> GT 0]
 				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<depth_yz>]]]
 			O<multipass-if07> ELSE
-				#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>*0.1]]]
 			O<multipass-if07> ENDIF
 	(print,Prune1 y = #<y>,z = #<z>,feed = #<feed_r>)
 			G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
@@ -98,7 +98,7 @@
 				O<multipass-if09> IF [#<z> GT 0]
 					#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
 				O<multipass-if09> ELSE
-					#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>*0.1]]]
 				O<multipass-if09> ENDIF
 				G1 Z#<z>
 				
@@ -112,7 +112,7 @@
 			O<multipass-if06> IF [#<depth_yz> GT 0]
 				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<depth_yz>]]]
 			O<multipass-if06> ELSE
-				#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>*0.1]]]
 			O<multipass-if06> ENDIF
 	(print,Prune2 y = #<y>,z = #<z>,feed = #<feed_r>)
 			G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
@@ -120,7 +120,7 @@
 		O<multipass-if17> ENDIF
  
 		(Make final Z cut )
-		O<multipass-if16> IF [#<fin_z> GT 0.001]
+		O<multipass-if16> IF [[#<fin_z> GT 0.001] AND [#<y0> LT #<y1>]]
 			G0 Z#<rappid>
 			#<y>=[#<y0>-#<tool_r>]
 			G0 X#<x> Y#<y>
@@ -143,7 +143,7 @@
 				O<multipass-if10> IF [#<z> GT 0]
 					#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z>]]]
 				O<multipass-if10> ELSE
-					#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+					#<feed_r> = [#<_global_feed>*[180/[#<pi>*0.1]]]
 				O<multipass-if10> ENDIF
 	(print,while04 y = #<y>,z = #<depth_yz>,feed = #<feed_r>)
 				G1 B180 F#<feed_r> (Angular Feed Formula fc = f*[180/[pi*r]])
@@ -154,7 +154,7 @@
 			O<multipass-if05> IF [#<z1> GT 0]
 				#<feed_r> = [#<_global_feed>*[180/[#<pi>*#<z1>]]]
 			O<multipass-if05> ELSE
-				#<feed_r> = [#<_global_feed>*[180/[#<pi>]]]
+				#<feed_r> = [#<_global_feed>*[180/[#<pi>*0.1]]]
 			O<multipass-if05> ENDIF
 
 	(print,Prune3 y = #<y>,z = #<z>,feed = #<feed_r>)
