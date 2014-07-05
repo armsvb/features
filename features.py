@@ -917,6 +917,7 @@ class Features(gtk.VBox):
 			self.linuxcnc.wait_complete()
 			self.linuxcnc.program_open(PROGRAM_PREFIX + "/features.ngc")
 			self.linuxcnc.wait_complete()
+			subprocess.call(["axis-remote",PROGRAM_PREFIX + "/features.ngc"])
 		
 	
 	def to_file(self, *arg) :
