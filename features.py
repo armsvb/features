@@ -864,7 +864,6 @@ class Features(gtk.VBox):
 		gcode_def = ""
 		gcode = ""
 		f = self.treestore.get(iter,0)[0]
-		print "Feature class:", f.__class__ 
 
 		if f.__class__ == Feature :
 			gcode_def += f.get_definitions()
@@ -903,7 +902,7 @@ class Features(gtk.VBox):
 			else :
 				print _("Warning %(file)s was not found in path %(path)s!")%{"file":s,"path":SUBROUTINES_PATH}
 	
-		return self.defaults+gcode_def+"(End definitions)\n\n\n"+gcode + "\n\nM02"
+		return self.defaults+gcode_def+"(End definitions)\n\n\n"+gcode + "\nM05\nM02"
 		
 					
 	def refresh(self, *arg ) :
@@ -918,7 +917,7 @@ class Features(gtk.VBox):
 			self.linuxcnc.wait_complete()
 			self.linuxcnc.program_open(PROGRAM_PREFIX + "/features.ngc")
 			self.linuxcnc.wait_complete()
-			subprocess.call(["axis-remote",PROGRAM_PREFIX + "/features.ngc"])		
+		
 	
 	def to_file(self, *arg) :
 		filechooserdialog = gtk.FileChooserDialog("Save as...", None, gtk.FILE_CHOOSER_ACTION_SAVE, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
@@ -1077,7 +1076,7 @@ class Features(gtk.VBox):
 		if self.autorefresh.get_active() :
 			if self.timeout != None :
 				gobject.source_remove(self.timeout)
-			self.timeout = gobject.timeout_add(self.autorefresh_timeout.get_value()*1000, self.autorefresh_call)
+			self.timeout = gobject.timeout_add(int(self.autorefresh_timeout.get_value()*1000), self.autorefresh_call)
 		
 	def undo(self, *arg) :
 		if self.undo_pointer>=0 and len(self.undo_list)>0:

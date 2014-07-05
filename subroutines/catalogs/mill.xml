@@ -36,7 +36,7 @@
 	<group name="4axis XYZB" icon="images/lathe-chuck.png">
 		<sub name="Line cartesian" icon="images/line-xy.png" src="mill/chain4axis/line-yz.ini" />
 		<sub name="Arc 2 points + radius" icon="images/arc-to-xyr.png" src="mill/chain4axis/arc-yzr.ini" />
-		<sub name="Parameters" icon="images/cutting-params.png" src="mill/chain4axis/cut-params.ini" />
+		<sub name="Cutting parameters XYZB" icon="images/cutting-params.png" src="mill/chain4axis/cut-params.ini" />
 	</group>
 
 	<group name="Chains" icon="images/chain.png">
@@ -61,7 +61,7 @@
 	<group name="Tool" icon="images/mill-tool.png">
 		<sub name="Tool change" icon="images/tool-change.png" src="tool-change.ini"/>
 		<sub name="Tool" icon="images/mill-tool.png" src="set-tool.ini"/>
-		<sub name="Set cuting params" icon="images/tool.png" src="mill/set-cutting-params.ini"/>
+		<sub name="Set cuting params" icon="images/tool.png" src="mill/cutting-params.ini"/>
 	</group>
 
 	<group name="Gcode" icon="images/gcode.png">
@@ -74,7 +74,7 @@
 		<sub name="Probe cube" src="probe-cube.ini" icon="images/probe-cube.png"/>
 		<sub name="Global probing params" icon="images/tool-probe.png" src="mill/global-probing-params.ini"/> 
 	</group>
-	
+
 	<defaults src="mill/defaults.ngc"/>
 
 </xml>
