@@ -26,9 +26,10 @@ O<multipass> SUB
 	O<multipass-while> ENDWHILE
 	
 	(Make final cut)
-	G1 Z#<depth> 
-	O#1 CALL [#7] [#8] [#9] [#10] [#11] [#12] [#13] [#14] [#15] [#16] [#17] [#18] [#19]
-
+	O<multipass-if02> IF [#<final> GT 0]	
+		G1 Z#<depth> 
+		O#1 CALL [#7] [#8] [#9] [#10] [#11] [#12] [#13] [#14] [#15] [#16] [#17] [#18] [#19]
+	O<multipass-if02> ENDIF	
 	G0 Z#<rappid>	
 O<multipass> ENDSUB
 
