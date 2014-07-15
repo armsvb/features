@@ -3,6 +3,8 @@ import sys
 from math import *
 pi2 = pi*2
 
+line_limit=1000 # will break if Gcode is larget than line_limit
+
 ################################################################################
 ###		Process - is used to store data while creating Gcode
 ################################################################################
@@ -499,7 +501,7 @@ class LineArc:
 			self.process.penetration_angle = 45./180.*pi
 		if self.process.penetration_angle*180./pi >= 90. : # bad penetration angle, penetrate at 90 degree
 			self.process.penetration_angle = 90./180.*pi
-			
+		
 		self.process.__init__()
 		l = 0 # current pass length
 		L = self.l() # total path length
@@ -538,6 +540,11 @@ class LineArc:
 					if t>=1.-1.e-8 : 
 						i = (i+1)%len(self.items)
 						t=0
+						
+					if self.process.gcode.count("\n")>line_limit : # check limits to aviod infinite loop
+						self.process.to_rappid()
+						return self.process.gcode
+	
 			else :
 				if self.process.penetration_strategy == 0 : # saw /|/|/|/|/|/|/|/|
 					# penetrate
@@ -565,19 +572,30 @@ class LineArc:
 								if i<0 :
 									forward = True
 									i = 0
-									
+					
+						if self.process.gcode.count("\n")>line_limit : # check limits to aviod infinite loop
+							self.process.to_rappid()
+							return self.process.gcode
+
 					if not forward :
 						t = 1.-t
+
 #					print "Done penetration at i=%s t=%s"%(i,t)
 					last_pass = self.process.z
 					# now reverse and go back
 					while i>=0 :
+						if (self.process.p()-self.items[0].st).l2()<1.e-8 : # check that we are at the start point 
+							break
 #						print "Fall back, %s %s"%(i,t)
 						self.process.gcode += "(i=%s t=%s)\n"%(i,t)
 						self.process.l = 0
 						self.process.gcode += "(Reversed %s)\n"%self.items[i].reverse()
 						t = self.items[i].reverse().to_gcode(self.process,1.-t)
 						i -= 1
+						
+						if self.process.gcode.count("\n")>line_limit : # check limits to aviod infinite loop
+							self.process.to_rappid()
+							return self.process.gcode
 						
 
 				else : # triangle /\/\/\/\/\/\/\/\/\
@@ -595,6 +613,11 @@ class LineArc:
 					if t>=1 : 
 						i = (i+1)%len(self.items)
 						t = 0
+						
+					if self.process.gcode.count("\n")>line_limit : # check limits to aviod infinite loop
+						self.process.to_rappid()
+						return self.process.gcode
+						
 		self.process.to_rappid()
 		return self.process.gcode
 				
