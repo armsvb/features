@@ -73,6 +73,7 @@
 	<group name="Probing" icon="images/probe-cube.png">
 		<sub name="Probe down" src="probe-down.ini" icon="images/probe-down.png"/>
 		<sub name="Probe hole" src="probe-hole.ini" icon="images/probe-hole.png"/>
+		<sub name="Probe cylinder" src="probe-cylinder.ini" icon="images/probe-flat-out.png"/>
 		<sub name="Probe cube" src="probe-cube.ini" icon="images/probe-cube.png"/>
 		<sub name="Compensation Z" src="compensation_map.ini" icon="images/rect-array.png"/>
 		<sub name="Global probing params" icon="images/tool-probe.png" src="mill/global-probing-params.ini"/> 
