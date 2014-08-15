@@ -52,6 +52,7 @@
 
 	<group name="Pocketing" icon="images/rect-pocket.png">
 		<sub name="Rectangular pocket" icon="images/rect-pocket.png" src="mill/rect-pocket.ini" />
+		<sub name="Rectangular polish" icon="images/center-rect.png" src="mill/polish.ini" />
 	</group>
 
 	<group name="Grouping" icon="images/array.png"> 
