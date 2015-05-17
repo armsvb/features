@@ -35,7 +35,6 @@ from copy import deepcopy
 import io
 from cStringIO import StringIO
 
-
 import gettext
 
 if os.path.exists('./locale/linuxcnc-features.po') :
@@ -263,13 +262,10 @@ class Feature():
 			return ""
 
 	def include(self, src) :
-		try:
-			f = open(search_path(SUBROUTINES_PATH,src))
-			s = f.read()
-			f.close()
-			return s
-		except:
-			return ""
+		f = open(search_path(SUBROUTINES_PATH,src))
+		s = f.read()
+		f.close()
+		return s
 
 	def include_once(self, src) :
 		global INCLUDE
@@ -381,8 +377,19 @@ class Features(gtk.VBox):
 		PROGRAM_PREFIX = ""
 		try : 
 			inifile = linuxcnc.ini(ini)
-			SUBROUTINES_PATH = inifile.find('RS274NGC', 'SUBROUTINE_PATH') or "/tmp"
-			PROGRAM_PREFIX = inifile.find('DISPLAY', 'PROGRAM_PREFIX') or "/tmp"
+			try :			
+				SUBROUTINES_PATH = inifile.find('RS274NGC', 'SUBROUTINE_PATH') or ""
+			except : 
+				print _("Warning! There's no SUBROUTINES_PATH in ini file!")
+
+			try : 
+				PROGRAM_PREFIX = inifile.find('DISPLAY', 'PROGRAM_PREFIX') or ""					
+				# Support relative paths based on the ini file location
+				if not os.path.isabs(PROGRAM_PREFIX):
+					PROGRAM_PREFIX = os.path.normpath(
+										os.path.join(ini, PROGRAM_PREFIX))
+			except : 
+				print _("Warning! There's no PROGRAM_PREFIX in ini file!")
 		except :
 			print _("Warning! Problem while loading ini file!")
 
@@ -864,8 +871,7 @@ class Features(gtk.VBox):
 		gcode_def = ""
 		gcode = ""
 		f = self.treestore.get(iter,0)[0]
-
-		if f.__class__ == Feature :
+		if f.__class__ == Feature : 
 			gcode_def += f.get_definitions()
 			gcode += f.process(f.attr["before"]) 
 			gcode += f.process(f.attr["call"]) 
@@ -875,7 +881,7 @@ class Features(gtk.VBox):
 			gcode += g
 			gcode_def += d
 			iter = self.treestore.iter_next(iter)
-		if f.__class__ == Feature : 
+		if f.__class__ ==	 Feature : 
 			gcode += f.process(f.attr["after"])+"\n" 
 
 		return gcode,gcode_def
@@ -902,7 +908,7 @@ class Features(gtk.VBox):
 			else :
 				print _("Warning %(file)s was not found in path %(path)s!")%{"file":s,"path":SUBROUTINES_PATH}
 	
-		return self.defaults+gcode_def+"(End definitions)\n\n\n"+gcode + "\nM05\nM02"
+		return self.defaults+gcode_def+"(End definitions)\n\n\n"+gcode + "\n\nM02"
 		
 					
 	def refresh(self, *arg ) :
@@ -912,11 +918,8 @@ class Features(gtk.VBox):
 		self.stat.poll()
 		if self.stat.interp_state == linuxcnc.INTERP_IDLE :
 			self.linuxcnc.reset_interpreter()
-			self.linuxcnc.wait_complete()
 			self.linuxcnc.mode(linuxcnc.MODE_AUTO)
-			self.linuxcnc.wait_complete()
 			self.linuxcnc.program_open(PROGRAM_PREFIX + "/features.ngc")
-			self.linuxcnc.wait_complete()
 			subprocess.call(["axis-remote",PROGRAM_PREFIX + "/features.ngc"])
 		
 	
